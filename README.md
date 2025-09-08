@@ -27,8 +27,8 @@ Designed with a **minimalist black & white UI** and deployable on **Vercel** for
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/yourusername/qrcode-flask.git
-cd qrcode-flask
+git clone https://github.com/bhavya9345/qrcode-generator-flask/
+cd qrcode-generator-flask
 ```
 
 ### 2. Install Dependencies
