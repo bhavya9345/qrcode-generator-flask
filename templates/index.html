@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>QR Code Generator</h1>
+    <form method="POST">
+      <input type="text" name="data" placeholder="Enter text or URL" required>
+      <button type="submit">Generate QR</button>
+    </form>
+
+    {% if qr_code %}
+    <div class="qr-container">
+      <h2>Your QR Code:</h2>
+      <img id="qrImage" src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+      <div class="actions">
+        <a id="downloadBtn" href="data:image/png;base64,{{ qr_code }}" download="qrcode.png">Download</a>
+        <button type="button" onclick="shareQR()">Share</button>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    async function shareQR() {
+      const qrImage = document.getElementById("qrImage");
+      const response = await fetch(qrImage.src);
+      const blob = await response.blob();
+
+      if (navigator.share) {
+        const file = new File([blob], "qrcode.png", { type: "image/png" });
+        navigator.share({
+          title: "QR Code",
+          text: "Here is my generated QR Code!",
+          files: [file]
+        }).catch(err => console.log("Share failed:", err));
+      } else {
+        alert("Sharing is not supported on this browser.");
+      }
+    }
+  </script>
+</body>
+</html>
